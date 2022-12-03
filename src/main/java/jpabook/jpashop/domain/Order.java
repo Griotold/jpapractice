@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -14,9 +16,17 @@ public class Order {
     @GeneratedValue
     @Column(name="order_id")
     private Long id;
-    @Column(name="member_id")
-    private Long memberId;
+
+    // 연관관계의 주인
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member member;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
     private LocalDateTime orderDate;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 }

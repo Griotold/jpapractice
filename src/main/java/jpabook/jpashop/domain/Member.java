@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -20,16 +22,10 @@ public class Member {
     @Column(name="username")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    private String city;
+    private String street;
+    private String zipcode;
 
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
-    }
-
-//    private String city;
-//    private String street;
-//    private String zipcode;
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 }
