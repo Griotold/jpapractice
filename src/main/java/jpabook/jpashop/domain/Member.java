@@ -24,6 +24,11 @@ public class Member {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
+
 //    private String city;
 //    private String street;
 //    private String zipcode;

@@ -29,21 +29,15 @@ public class JpaMain {
             // 멤버 저장
             Member member = new Member();
             member.setName("memA");
-            member.setTeam(team); //단방향 연관관계 설정, 참조 저장
+
             em.persist(member);
+            // 연관관계 편의 메소드로 양쪽에 값 입력
+            //member.changeTeam(team);
+            team.addMember(member);
 
             // 데이터에 반영시키기
             em.flush();
             em.clear();
-
-            //조회
-            Team findTeam = em.find(Team.class, team.getId());
-            int memberSize = findTeam.getMembers().size(); //역방향 조회
-            System.out.println("memberSize = " + memberSize);
-            List<Member> members = findTeam.getMembers();
-            for (Member m : members) {
-                System.out.println("m.getName() = " + m.getName());
-            }
 
             tx.commit();
         } catch(Exception e){
