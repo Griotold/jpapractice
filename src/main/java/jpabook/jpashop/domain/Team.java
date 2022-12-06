@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+//@Entity
 @Getter @Setter
 public class Team {
     @Id
@@ -21,9 +21,9 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
 
-    public void addMember(Member member){
-        this.members.add(member);
-        member.setTeam(this);
-
-    }
+//    public void addMember(Member member){
+//        this.members.add(member);
+//        member.setTeam(this);
+//
+//    }
 }

@@ -28,4 +28,12 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+//    @OneToOne
+//    @JoinColumn(name="locker_id")
+//    private Locker locker;
+
+//    @ManyToOne
+//    @JoinColumn(name="team_id");
+//    private Team team;
 }

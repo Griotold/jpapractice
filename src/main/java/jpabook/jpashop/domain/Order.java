@@ -27,6 +27,10 @@ public class Order {
 
     private LocalDateTime orderDate;
 
+    @OneToOne // 연관관계의 주인, 외래키
+    @JoinColumn(name="delivery_id")
+    private Delivery delivery;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 }
