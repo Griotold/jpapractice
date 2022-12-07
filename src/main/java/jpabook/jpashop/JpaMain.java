@@ -1,5 +1,6 @@
 package jpabook.jpashop;
 
+import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Member;
 
 
@@ -21,6 +22,14 @@ public class JpaMain {
         tx.begin();
 
         try{
+
+            Book book = new Book();
+            book.setAuthor("김영한");
+            book.setIsbn("1234");
+            book.setName("JPA");
+            book.setPrice(12300);
+
+            em.persist(book);
 
             tx.commit();
         } catch(Exception e){
