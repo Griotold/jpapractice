@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter @Getter
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @GeneratedValue // 기본값이 Auto
     @Column(name="member_id")

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -22,14 +23,12 @@ public class JpaMain {
         tx.begin();
 
         try{
+            Member member = new Member();
+            member.setName("fsdf");
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
 
-            Book book = new Book();
-            book.setAuthor("김영한");
-            book.setIsbn("1234");
-            book.setName("JPA");
-            book.setPrice(12300);
-
-            em.persist(book);
+            em.persist(member);
 
             tx.commit();
         } catch(Exception e){
