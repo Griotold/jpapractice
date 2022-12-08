@@ -2,6 +2,8 @@ package jpabook.jpashop;
 
 import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.article.Article;
+import jpabook.jpashop.domain.article.Comment;
 
 
 import javax.persistence.EntityManager;
@@ -23,12 +25,25 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setName("fsdf");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
+            Comment comment1 = new Comment();
+            comment1.setContent("코멘트1");
 
-            em.persist(member);
+            Comment comment2 = new Comment();
+            comment2.setContent("코멘트2");
+
+            Article article = new Article();
+            article.setTitle("title1");
+            article.setBody("cascade 연습");
+            article.addComment(comment1);
+            article.addComment(comment2);
+            em.persist(article);
+
+            em.flush();
+            em.clear();
+
+            Article findArticle = em.find(Article.class, article.getId());
+            em.remove(findArticle);
+
 
             tx.commit();
         } catch(Exception e){
