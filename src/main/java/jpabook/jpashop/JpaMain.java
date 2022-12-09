@@ -33,7 +33,7 @@ public class JpaMain {
 
             Article article = new Article();
             article.setTitle("title1");
-            article.setBody("cascade 연습");
+            article.setBody("고아객체 연습");
             article.addComment(comment1);
             article.addComment(comment2);
             em.persist(article);
@@ -42,7 +42,7 @@ public class JpaMain {
             em.clear();
 
             Article findArticle = em.find(Article.class, article.getId());
-            em.remove(findArticle);
+            findArticle.getComments().remove(0);
 
 
             tx.commit();
