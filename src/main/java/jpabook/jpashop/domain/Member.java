@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter @Getter
-public class Member extends BaseEntity{
+public class Member {
     @Id
     @GeneratedValue // 기본값이 Auto
     @Column(name="member_id")
@@ -22,9 +23,25 @@ public class Member extends BaseEntity{
     @Column(name="username")
     private String name;
 
-    private String city;
-    private String street;
-    private String zipcode;
+    // 기간 : Period
+    @Embedded
+    private Period workPeriod;
+
+    // 집주소 : Address
+    @Embedded
+    private Address homeAddress;
+
+    // 직장 주소
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+            column=@Column(name="work_city")),
+            @AttributeOverride(name="street",
+            column=@Column(name="work_street")),
+            @AttributeOverride(name="zipcode",
+            column=@Column(name="work_zipcode"))
+    })
+    private Address workAddress;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
