@@ -1,7 +1,6 @@
 package jpabook.jpashop;
 
-import jpabook.jpashop.domain.Book;
-import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.article.Article;
 import jpabook.jpashop.domain.article.Comment;
 
@@ -24,26 +23,8 @@ public class JpaMain {
 
         tx.begin();
 
+        // 실전 예제 : 영속성 전이
         try{
-            Comment comment1 = new Comment();
-            comment1.setContent("코멘트1");
-
-            Comment comment2 = new Comment();
-            comment2.setContent("코멘트2");
-
-            Article article = new Article();
-            article.setTitle("title1");
-            article.setBody("고아객체 연습");
-            article.addComment(comment1);
-            article.addComment(comment2);
-            em.persist(article);
-
-            em.flush();
-            em.clear();
-
-            Article findArticle = em.find(Article.class, article.getId());
-            findArticle.getComments().remove(0);
-
 
             tx.commit();
         } catch(Exception e){
