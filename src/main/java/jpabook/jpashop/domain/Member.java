@@ -8,7 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -43,14 +45,19 @@ public class Member {
     })
     private Address workAddress;
 
+    // 좋아하는 음식들
+    @ElementCollection
+    @CollectionTable(name = "favorite_food", joinColumns =
+        @JoinColumn(name="member_id"))
+    private Set<String> favoriteFood = new HashSet<>();
+
+    // 주소 이력
+    @ElementCollection
+    @CollectionTable(name = "address_history", joinColumns =
+        @JoinColumn(name="member_id"))
+    private List<Address> addressHistory = new ArrayList<>();
+
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-//    @OneToOne
-//    @JoinColumn(name="locker_id")
-//    private Locker locker;
-
-//    @ManyToOne
-//    @JoinColumn(name="team_id");
-//    private Team team;
 }
