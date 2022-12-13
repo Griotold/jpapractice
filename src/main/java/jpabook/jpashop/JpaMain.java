@@ -6,6 +6,7 @@ import jpabook.jpashop.domain.article.Comment;
 import jpabook.jpashop.domain.jpql.AddressJpql;
 import jpabook.jpashop.domain.jpql.MemberDTO;
 import jpabook.jpashop.domain.jpql.MemberJpql;
+import jpabook.jpashop.domain.jpql.TeamJpql;
 
 
 import javax.persistence.EntityManager;
@@ -26,27 +27,24 @@ public class JpaMain {
 
         tx.begin();
 
-        // 프로젝션
+        // 조인
         try{
-            for(int i = 0; i<100;i++){
-                MemberJpql memberJpql = new MemberJpql();
-                memberJpql.setUsername("member"+ i);
-                memberJpql.setAge(i);
-                em.persist(memberJpql);
-            }
+            TeamJpql teamJpql = new TeamJpql();
+            teamJpql.setName("teamA");
+            em.persist(teamJpql);
+
+            MemberJpql memberJpql = new MemberJpql();
+            memberJpql.setUsername("member1");
+            memberJpql.setAge(10);
+            memberJpql.changeTeam(teamJpql);
+            em.persist(memberJpql);
+
             em.flush();
             em.clear();
 
-            List<MemberJpql> resultList = em.createQuery("select m from MemberJpql m order by m.age desc"
-                            , MemberJpql.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
+            String query = "select m from MemberJpql inner join m.teamjpql t";
+            List<MemberJpql> resultList = em.createQuery(query, MemberJpql.class)
                     .getResultList();
-            System.out.println("resultList.size() = " + resultList.size());
-            for (MemberJpql memberJpql : resultList) {
-                System.out.println("memberJpql.getUsername() = " + memberJpql.getUsername());
-                
-            }
 
             tx.commit();
         } catch(Exception e){
