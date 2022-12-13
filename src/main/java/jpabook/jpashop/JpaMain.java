@@ -28,21 +28,25 @@ public class JpaMain {
 
         // 프로젝션
         try{
-
-            MemberJpql memberJpql = new MemberJpql();
-            memberJpql.setUsername("Griotold");
-            memberJpql.setAge(10);
-            em.persist(memberJpql);
-
+            for(int i = 0; i<100;i++){
+                MemberJpql memberJpql = new MemberJpql();
+                memberJpql.setUsername("member"+ i);
+                memberJpql.setAge(i);
+                em.persist(memberJpql);
+            }
             em.flush();
             em.clear();
 
-            List<MemberDTO> memberDTOS = em.createQuery("select new jpabook.jpashop.domain.jpql.MemberDTO(m.username, m.age) from MemberJpql m"
-                            , MemberDTO.class)
+            List<MemberJpql> resultList = em.createQuery("select m from MemberJpql m order by m.age desc"
+                            , MemberJpql.class)
+                    .setFirstResult(1)
+                    .setMaxResults(10)
                     .getResultList();
-            MemberDTO memberDTO = memberDTOS.get(0);
-            System.out.println("memberDTO.username = " + memberDTO.getUsername());
-            System.out.println("memberDTO.age = " + memberDTO.getAge());
+            System.out.println("resultList.size() = " + resultList.size());
+            for (MemberJpql memberJpql : resultList) {
+                System.out.println("memberJpql.getUsername() = " + memberJpql.getUsername());
+                
+            }
 
             tx.commit();
         } catch(Exception e){
