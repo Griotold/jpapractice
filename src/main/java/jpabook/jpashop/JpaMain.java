@@ -3,10 +3,7 @@ package jpabook.jpashop;
 import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.article.Article;
 import jpabook.jpashop.domain.article.Comment;
-import jpabook.jpashop.domain.jpql.AddressJpql;
-import jpabook.jpashop.domain.jpql.MemberDTO;
-import jpabook.jpashop.domain.jpql.MemberJpql;
-import jpabook.jpashop.domain.jpql.TeamJpql;
+import jpabook.jpashop.domain.jpql.*;
 
 
 import javax.persistence.EntityManager;
@@ -29,22 +26,18 @@ public class JpaMain {
 
         // 조인
         try{
-            TeamJpql teamJpql = new TeamJpql();
-            teamJpql.setName("teamA");
-            em.persist(teamJpql);
-
-            MemberJpql memberJpql = new MemberJpql();
-            memberJpql.setUsername("member1");
-            memberJpql.setAge(10);
-            memberJpql.changeTeam(teamJpql);
-            em.persist(memberJpql);
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
+            em.persist(book);
 
             em.flush();
             em.clear();
 
-            String query = "select m from MemberJpql inner join m.teamjpql t";
-            List<MemberJpql> resultList = em.createQuery(query, MemberJpql.class)
-                    .getResultList();
+            em.createQuery("select i from Item i where type(i) = Book", Item.class)
+                            .getResultList();
+
+
 
             tx.commit();
         } catch(Exception e){

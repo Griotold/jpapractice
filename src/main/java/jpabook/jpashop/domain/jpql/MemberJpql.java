@@ -20,6 +20,9 @@ public class MemberJpql {
     @JoinColumn(name="teamJpql_id")
     private TeamJpql teamJpql;
 
+    @Enumerated(EnumType.STRING)
+    private MemberType type;
+
     // 연관관계 편의 메소드
     public void changeTeam(TeamJpql teamJpql){
         this.teamJpql = teamJpql;
