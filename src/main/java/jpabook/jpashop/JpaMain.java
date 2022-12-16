@@ -24,20 +24,45 @@ public class JpaMain {
 
         tx.begin();
 
-        // 조인
+        // 페치조인
         try{
-            Book book = new Book();
-            book.setName("JPA");
-            book.setAuthor("김영한");
-            em.persist(book);
+            TeamJpql teamJpql1 = new TeamJpql();
+            teamJpql1.setName("t1");
+            em.persist(teamJpql1);
+
+            TeamJpql teamJpql2 = new TeamJpql();
+            teamJpql2.setName("t2");
+            em.persist(teamJpql2);
+
+            MemberJpql memberJpqlA = new MemberJpql();
+            memberJpqlA.setUsername("mA");
+            memberJpqlA.setTeamJpql(teamJpql1);
+            em.persist(memberJpqlA);
+
+            MemberJpql memberJpqlB = new MemberJpql();
+            memberJpqlB.setUsername("mB");
+            memberJpqlB.setTeamJpql(teamJpql1);
+            em.persist(memberJpqlB);
+
+            MemberJpql memberJpqlC = new MemberJpql();
+            memberJpqlC.setUsername("mC");
+            memberJpqlC.setTeamJpql(teamJpql2);
+            em.persist(memberJpqlC);
 
             em.flush();
             em.clear();
 
-            em.createQuery("select i from Item i where type(i) = Book", Item.class)
-                            .getResultList();
+            String query = "select t from Team";
+            List<TeamJpql> teamList = em.createQuery(query, TeamJpql.class)
+                    .setFirstResult(0)
+                    .setMaxResults(2)
+                    .getResultList();
 
+            for (TeamJpql team : teamList) {
+                System.out.println("team.getName() = " + team.getName()
+                                + " , "+team.getMemberJpqls().size());
 
+            }
 
             tx.commit();
         } catch(Exception e){
